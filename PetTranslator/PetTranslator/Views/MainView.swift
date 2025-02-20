@@ -45,12 +45,6 @@ struct MainView: View {
             .frame(width: 358, height: 50)
             .background(Color(hex: "D6DCFF"))
             .cornerRadius(20)
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(Color(hex: "D6DCFF")),
-                alignment: .bottom
-            )
         }
     }
 
