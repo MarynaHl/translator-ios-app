@@ -22,16 +22,12 @@ struct ClickerView: View {
                         settingsButton(title: "Privacy Policy", action: openPrivacyPolicy)
                         settingsButton(title: "Terms of Use", action: openTermsOfUse)
                     }
-                    
-                    Section {
-                        settingsButton(title: "Play Clicker Sound", action: playClickerSound)
-                    }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-                .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color.green.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
+                .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "F3F5F6"), Color(hex: "C9FFE0")]), startPoint: .top, endPoint: .bottom))
                 .navigationTitle("Settings")
-                .font(.system(size: 28, weight: .bold))
+                .font(.system(size: 32, weight: .bold))
                 .foregroundColor(.black)
                 
                 Spacer()
@@ -56,11 +52,11 @@ struct ClickerView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
-                .background(Color.white.opacity(0.9))
-                .cornerRadius(20)
-                .shadow(radius: 5)
-                .padding()
+                .frame(width: 216, height: 82)
+                .background(Color.white.opacity(1))
+                .cornerRadius(16)
+                .shadow(color: Color(hex: "373E7D").opacity(0.3), radius: 10, x: 0, y: 4)
+                .padding(.bottom, 20)
             }
         }
     }
@@ -69,15 +65,16 @@ struct ClickerView: View {
         Button(action: action) {
             HStack {
                 Text(title)
-                    .foregroundColor(.black)
-                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(Color(hex: "393736"))
+                    .font(.system(size: 16, weight: .medium))
                 Spacer()
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
             }
-            .padding()
-            .background(Color.blue.opacity(0.2))
-            .cornerRadius(12)
+            .padding(.horizontal, 16)
+            .frame(width: 358, height: 50)
+            .background(Color(hex: "D6DCFF"))
+            .cornerRadius(20)
         }
     }
     
@@ -133,5 +130,21 @@ struct ClickerView: View {
 struct ClickerView_Previews: PreviewProvider {
     static var previews: some View {
         ClickerView()
+    }
+}
+
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.currentIndex = hex.startIndex
+        
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+        
+        let red = Double((rgbValue >> 16) & 0xFF) / 255.0
+        let green = Double((rgbValue >> 8) & 0xFF) / 255.0
+        let blue = Double(rgbValue & 0xFF) / 255.0
+        
+        self.init(red: red, green: green, blue: blue)
     }
 }
