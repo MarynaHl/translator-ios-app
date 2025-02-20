@@ -2,8 +2,6 @@ import SwiftUI
 import AVFoundation
 
 struct ClickerView: View {
-    @State private var audioPlayer: AVAudioPlayer?
-
     var body: some View {
         NavigationStack {
             VStack {
@@ -69,16 +67,18 @@ struct ClickerView: View {
             .padding()
             .frame(maxWidth: .infinity)
 
-            VStack {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(.black)
-                Text("Clicker")
-                    .foregroundColor(.black)
-                    .font(.system(size: 14, weight: .bold))
+            NavigationLink(destination: ClickerTrainerView()) {
+                VStack {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
+                    Text("Clicker")
+                        .foregroundColor(.black)
+                        .font(.system(size: 14, weight: .bold))
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
             }
-            .padding()
-            .frame(maxWidth: .infinity)
         }
         .frame(width: 216, height: 82)
         .background(Color.white)
@@ -117,20 +117,6 @@ struct ClickerView: View {
     func openTermsOfUse() {
         if let url = URL(string: "https://yourTermsOfUseLink.com") {
             UIApplication.shared.open(url)
-        }
-    }
-
-    func playClickerSound() {
-        guard let soundURL = Bundle.main.url(forResource: "clickerSound", withExtension: "mp3") else {
-            print("Clicker sound file not found")
-            return
-        }
-
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-            audioPlayer?.play()
-        } catch {
-            print("Error playing clicker sound: \(error.localizedDescription)")
         }
     }
 }
