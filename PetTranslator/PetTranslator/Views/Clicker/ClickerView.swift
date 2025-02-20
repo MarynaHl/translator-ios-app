@@ -60,19 +60,22 @@ struct ClickerView: View {
         HStack {
             VStack {
                 Image(systemName: "bubble.left.and.bubble.right")
+                    .font(.system(size: 20))
                     .foregroundColor(.gray)
                 Text("Translator")
                     .foregroundColor(.gray)
+                    .font(.system(size: 14, weight: .medium))
             }
             .padding()
             .frame(maxWidth: .infinity)
 
             VStack {
                 Image(systemName: "gearshape.fill")
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("Clicker")
                     .foregroundColor(.black)
-                    .fontWeight(.bold)
+                    .font(.system(size: 14, weight: .bold))
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -80,7 +83,7 @@ struct ClickerView: View {
         .frame(width: 216, height: 82)
         .background(Color.white)
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.2), radius: 12, x: 0, y: 6)
+        .shadow(color: Color(hex: "373E7D").opacity(0.3), radius: 80, x: 0, y: 0)
     }
 
     func rateApp() {
