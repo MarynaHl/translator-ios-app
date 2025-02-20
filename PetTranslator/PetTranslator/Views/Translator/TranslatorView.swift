@@ -1,4 +1,3 @@
-// TranslatorView.swift
 import SwiftUI
 import AVFoundation
 
@@ -6,16 +5,12 @@ struct TranslatorView: View {
     @State private var isRecording: Bool = false
     @State private var translationInProgress: Bool = false
     @State private var showResult: Bool = false
-    
-    @State private var isHumanToPet: Bool = true // true: Human->Pet, false: Pet->Human
-    
+    @State private var isHumanToPet: Bool = true
+
     var body: some View {
         VStack(spacing: 20) {
-            
             HStack(spacing: 20) {
-                Button(action: {
-                    isHumanToPet = true
-                }) {
+                Button(action: { isHumanToPet = true }) {
                     Text("HUMAN")
                         .foregroundColor(isHumanToPet ? .white : .blue)
                         .padding()
@@ -25,9 +20,7 @@ struct TranslatorView: View {
                 
                 Text("→")
                 
-                Button(action: {
-                    isHumanToPet = false
-                }) {
+                Button(action: { isHumanToPet = false }) {
                     Text("PET")
                         .foregroundColor(!isHumanToPet ? .white : .blue)
                         .padding()
@@ -36,15 +29,13 @@ struct TranslatorView: View {
                 }
             }
             
-            Image("dogExample") //Figma Assets
+            Image("dogExample")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
             
             if !isRecording && !translationInProgress {
-                Button(action: {
-                    startRecording()
-                }) {
+                Button(action: { startRecording() }) {
                     Label("Start Speak", systemImage: "mic.fill")
                         .font(.title3)
                         .padding()
@@ -52,82 +43,79 @@ struct TranslatorView: View {
                         .background(Color.blue)
                         .cornerRadius(12)
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
             
             if isRecording {
                 Text("Recording...")
                     .font(.headline)
                     .foregroundColor(.red)
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: isRecording)
             }
             
             if translationInProgress {
-                Text("Process of translation...")
+                Text("Processing translation...")
                     .font(.headline)
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: translationInProgress)
             }
             
             Spacer()
-            
-
-            NavigationLink(
-                destination: ResultView(isHumanToPet: isHumanToPet),
-                isActive: $showResult,
-                label: { EmptyView() }
-            )
         }
         .padding()
-        .onAppear {
-            
-        }
         .navigationTitle("Translator")
+        .onAppear { requestMicrophonePermission() }
+        .navigationDestination(isPresented: $showResult) {
+            ResultView(isHumanToPet: isHumanToPet)
+        }
     }
     
-    // MARK: - Функції
-    
+    func requestMicrophonePermission() {
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { granted in
+                if !granted {
+                    print("Microphone permission denied")
+                }
+            }
+        } else {
+            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                if !granted {
+                    print("Microphone permission denied")
+                }
+            }
+        }
+    }
+
     func startRecording() {
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
+            try audioSession.setActive(true)
+            requestMicrophonePermission()
 
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            if granted {
-
-                DispatchQueue.main.async {
-                    isRecording = true
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    isRecording = false
-                    translationInProgress = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        translationInProgress = false
-                        showResult = true
-                    }
-                }
-            } else {
-                print("Microphone permission denied")
+            DispatchQueue.main.async {
+                isRecording = true
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                isRecording = false
+                translationInProgress = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    translationInProgress = false
+                    showResult = true
+                }
+            }
+        } catch {
+            print("Error setting up audio session: \(error.localizedDescription)")
         }
     }
 }
 
-struct TranslatorView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            TranslatorView()
-        }
-    }
-}
-
-struct ResultView: View {
-    var isHumanToPet: Bool
-    
-    var body: some View {
-        VStack {
-            if isHumanToPet {
-                Text("Перекладено: “Гав-гав!”")
-                    .padding()
-            } else {
-                Text("Перекладено: “What are you doing, human?”")
-                    .padding()
-            }
-        }
-        .navigationTitle("Result")
+#Preview {
+    NavigationStack {
+        TranslatorView()
     }
 }
