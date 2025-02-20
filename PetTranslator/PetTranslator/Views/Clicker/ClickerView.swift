@@ -1,54 +1,45 @@
 import SwiftUI
-import AVFoundation
 
-struct ClickerTrainerView: View {
-    @State private var player: AVAudioPlayer?
-
-    init() {
-        configureAudioSession()
-    }
-
+struct ClickerView: View {
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Clicker for pet training")
-                .font(.title)
-            
-            Button("Click!") {
-                playClickSound()
-            }
-            .font(.title2)
-            .padding()
-            .background(Color.orange)
-            .cornerRadius(12)
-            .foregroundColor(.white)
-            
+        VStack(spacing: 12) {
+            Text("Settings")
+                .font(.system(size: 32, weight: .bold))
+                .padding(.top, 20)
+                .padding(.bottom, 20)
+
+            settingsButton(title: "Rate Us") { print("Rate Us tapped") }
+            settingsButton(title: "Share App") { print("Share App tapped") }
+            settingsButton(title: "Contact Us") { print("Contact tapped") }
+            settingsButton(title: "Restore Purchases") { print("Restore tapped") }
+            settingsButton(title: "Privacy Policy") { print("Privacy tapped") }
+            settingsButton(title: "Terms of Use") { print("Terms tapped") }
+
             Spacer()
         }
-        .padding()
-        .navigationTitle("Clicker")
+        .padding(.horizontal, 20)
     }
-    
-    func playClickSound() {
-        guard let url = Bundle.main.url(forResource: "clickerSound", withExtension: "mp3") else {
-            print("⚠️ Clicker sound file not found in Bundle!")
-            return
-        }
 
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.play()
-        } catch {
-            print("⚠️ Error playing clicker sound: \(error.localizedDescription)")
+    private func settingsButton(title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.black)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 50)
+            .background(Color(hex: "D6DCFF"))
+            .cornerRadius(20)
         }
     }
-    
-    func configureAudioSession() {
-        let session = AVAudioSession.sharedInstance()
-        do {
-            try session.setCategory(.playback, mode: .default)
-            try session.setActive(true)
-        } catch {
-            print("⚠️ Error configuring audio session: \(error.localizedDescription)")
-        }
+}
+
+struct ClickerView_Previews: PreviewProvider {
+    static var previews: some View {
+        ClickerView()
     }
 }

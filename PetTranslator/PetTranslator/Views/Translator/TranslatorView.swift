@@ -1,121 +1,143 @@
 import SwiftUI
-import AVFoundation
 
 struct TranslatorView: View {
-    @State private var isRecording: Bool = false
-    @State private var translationInProgress: Bool = false
-    @State private var showResult: Bool = false
-    @State private var isHumanToPet: Bool = true
+    @State private var isHumanToPet = true
+    @State private var isRecording = false
+    @State private var selectedAnimal: String = "dogExample"
 
     var body: some View {
-        VStack(spacing: 20) {
-            HStack(spacing: 20) {
+        VStack(spacing: 16) {
+            Text("Translator")
+                .font(.system(size: 32, weight: .bold))
+                .padding(.top, 20)
+
+            HStack(spacing: 12) {
                 Button(action: { isHumanToPet = true }) {
                     Text("HUMAN")
-                        .foregroundColor(isHumanToPet ? .white : .blue)
-                        .padding()
-                        .background(isHumanToPet ? Color.blue : Color.clear)
-                        .cornerRadius(10)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(isHumanToPet ? .black : .gray)
                 }
-                
-                Text("→")
-                
+
+                Image(systemName: "arrow.left.arrow.right")
+                    .font(.system(size: 18))
+                    .foregroundColor(.black)
+
                 Button(action: { isHumanToPet = false }) {
                     Text("PET")
-                        .foregroundColor(!isHumanToPet ? .white : .blue)
-                        .padding()
-                        .background(!isHumanToPet ? Color.blue : Color.clear)
-                        .cornerRadius(10)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(!isHumanToPet ? .black : .gray)
                 }
             }
-            
-            Image("dogExample")
+
+            HStack(spacing: 16) {
+                if isRecording {
+                    recordingCard
+                } else {
+                    speakCard
+                }
+
+                animalPicker
+            }
+
+            Image(selectedAnimal)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
-            
-            if !isRecording && !translationInProgress {
-                Button(action: { startRecording() }) {
-                    Label("Start Speak", systemImage: "mic.fill")
-                        .font(.title3)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(12)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-            }
-            
-            if isRecording {
-                Text("Recording...")
-                    .font(.headline)
-                    .foregroundColor(.red)
-                    .transition(.opacity)
-                    .animation(.easeInOut, value: isRecording)
-            }
-            
-            if translationInProgress {
-                Text("Processing translation...")
-                    .font(.headline)
-                    .transition(.opacity)
-                    .animation(.easeInOut, value: translationInProgress)
-            }
-            
+                .padding(.top, 16)
+
             Spacer()
         }
-        .padding()
-        .navigationTitle("Translator")
-        .onAppear { requestMicrophonePermission() }
-        .navigationDestination(isPresented: $showResult) {
-            ResultView(isHumanToPet: isHumanToPet)
-        }
+        .padding(.horizontal, 20)
     }
-    
-    func requestMicrophonePermission() {
-        if #available(iOS 17.0, *) {
-            AVAudioApplication.requestRecordPermission { granted in
-                if !granted {
-                    print("Microphone permission denied")
-                }
+
+
+    private var recordingCard: some View {
+        VStack {
+            Image(systemName: "waveform")
+                .font(.system(size: 40))
+                .foregroundColor(.purple)
+                .padding(.bottom, 5)
+
+            Text("Recording...")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.black)
+        }
+        .frame(width: 160, height: 160)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 5)
+    }
+
+    private var speakCard: some View {
+        Button {
+            startRecording()
+        } label: {
+            VStack {
+                Image(systemName: "mic.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.black)
+                    .padding(.bottom, 5)
+
+                Text("Start Speak")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.black)
             }
-        } else {
-            AVAudioSession.sharedInstance().requestRecordPermission { granted in
-                if !granted {
-                    print("Microphone permission denied")
-                }
-            }
+            .frame(width: 160, height: 160)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(radius: 5)
         }
     }
 
-    func startRecording() {
-        let audioSession = AVAudioSession.sharedInstance()
-        
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
-            try audioSession.setActive(true)
-            requestMicrophonePermission()
+    private var animalPicker: some View {
+        VStack {
+            Button {
+                selectedAnimal = "catExample"
+            } label: {
+                Image("catExample")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .background(
+                        selectedAnimal == "catExample"
+                        ? Color.blue.opacity(0.4)
+                        : Color.clear
+                    )
+                    .cornerRadius(10)
+            }
 
-            DispatchQueue.main.async {
-                isRecording = true
+            Button {
+                selectedAnimal = "dogExample"
+            } label: {
+                Image("dogExample")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .background(
+                        selectedAnimal == "dogExample"
+                        ? Color.green.opacity(0.4)
+                        : Color.clear
+                    )
+                    .cornerRadius(10)
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                isRecording = false
-                translationInProgress = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    translationInProgress = false
-                    showResult = true
-                }
-            }
-        } catch {
-            print("Error setting up audio session: \(error.localizedDescription)")
+        }
+        .frame(width: 100, height: 160)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 5)
+    }
+
+
+    private func startRecording() {
+        isRecording = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            isRecording = false
         }
     }
 }
 
-#Preview {
-    NavigationStack {
+struct TranslatorView_Previews: PreviewProvider {
+    static var previews: some View {
         TranslatorView()
     }
 }

@@ -1,64 +1,47 @@
-// ResultView.swift
 import SwiftUI
 
 struct ResultView: View {
-    var isHumanToPet: Bool
-    
-    @State private var showBubbleText: String = ""
-    
+    let isHumanToPet: Bool
+
     var body: some View {
         VStack(spacing: 20) {
-            
-            Text(showBubbleText)
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
-            
+            Text("Result")
+                .font(.system(size: 28, weight: .bold))
+
             if isHumanToPet {
-                Image("dogExample")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-            } else {
-                Image("catExample")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-            }
-            
-            Button(action: {
-                playTranslation()
-            }) {
-                Text("Repeat")
-                    .font(.title3)
-                    .foregroundColor(.white)
+                Text("I'm hungry, feed me!")
                     .padding()
-                    .background(Color.blue)
-                    .cornerRadius(12)
+                    .background(Color.white)
+                    .cornerRadius(8)
+            } else {
+                Text("What are you doing, human?")
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(8)
             }
-            
+
+            Image(isHumanToPet ? "catExample" : "dogExample")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+
+
+            Button("Repeat") {
+            }
+            .font(.title3)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(12)
+
             Spacer()
         }
-        .navigationTitle("Result")
-        .onAppear {
-            playTranslation()
-        }
-    }
-    
-    func playTranslation() {
-
-        if isHumanToPet {
-            showBubbleText = "Гав-гав! Feed me!"
-        } else {
-            showBubbleText = "What are you doing, human?"
-        }
+        .padding()
     }
 }
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ResultView(isHumanToPet: true)
-        }
+        ResultView(isHumanToPet: true)
     }
 }

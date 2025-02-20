@@ -4,7 +4,7 @@ import SwiftUI
 struct PetTranslatorApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView()
+            ContentView()
         }
     }
 }
