@@ -1,53 +1,83 @@
 import SwiftUI
+import AVFoundation
 
 struct ClickerView: View {
+    @State private var audioPlayer: AVAudioPlayer?
+    
     var body: some View {
-        NavigationView {
-            List {
-                Section {
-                    Button(action: {
-                        rateApp()
-                    }) {
-                        Text("Rate Us")
+        NavigationStack {
+            VStack {
+                List {
+                    Section {
+                        settingsButton(title: "Rate Us", action: rateApp)
+                        settingsButton(title: "Share App", action: shareApp)
+                        settingsButton(title: "Contact Us", action: contactUs)
                     }
                     
-                    Button(action: {
-                        shareApp()
-                    }) {
-                        Text("Share App")
+                    Section {
+                        settingsButton(title: "Restore Purchases", action: restorePurchases)
                     }
                     
-                    Button(action: {
-                        contactUs()
-                    }) {
-                        Text("Contact Us")
+                    Section {
+                        settingsButton(title: "Privacy Policy", action: openPrivacyPolicy)
+                        settingsButton(title: "Terms of Use", action: openTermsOfUse)
+                    }
+                    
+                    Section {
+                        settingsButton(title: "Play Clicker Sound", action: playClickerSound)
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color.green.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
+                .navigationTitle("Settings")
+                .font(.system(size: 28, weight: .bold))
+                .foregroundColor(.black)
                 
-                Section {
-                    Button(action: {
-                        restorePurchases()
-                    }) {
-                        Text("Restore Purchases")
-                    }
-                }
+                Spacer()
                 
-                Section {
-                    Button(action: {
-                        openPrivacyPolicy()
-                    }) {
-                        Text("Privacy Policy")
+                HStack {
+                    VStack {
+                        Image(systemName: "bubble.left.and.bubble.right")
+                            .foregroundColor(.gray)
+                        Text("Translator")
+                            .foregroundColor(.gray)
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
                     
-                    Button(action: {
-                        openTermsOfUse()
-                    }) {
-                        Text("Terms of Use")
+                    VStack {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(.black)
+                        Text("Clicker")
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
                 }
+                .frame(maxWidth: .infinity)
+                .background(Color.white.opacity(0.9))
+                .cornerRadius(20)
+                .shadow(radius: 5)
+                .padding()
             }
-            .listStyle(GroupedListStyle())
-            .navigationTitle("Settings")
+        }
+    }
+    
+    func settingsButton(title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title)
+                    .foregroundColor(.black)
+                    .font(.system(size: 18, weight: .medium))
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding()
+            .background(Color.blue.opacity(0.2))
+            .cornerRadius(12)
         }
     }
     
@@ -82,6 +112,20 @@ struct ClickerView: View {
     func openTermsOfUse() {
         if let url = URL(string: "https://yourTermsOfUseLink.com") {
             UIApplication.shared.open(url)
+        }
+    }
+    
+    func playClickerSound() {
+        guard let soundURL = Bundle.main.url(forResource: "clickerSound", withExtension: "mp3") else {
+            print("Clicker sound file not found")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.play()
+        } catch {
+            print("Error playing clicker sound: \(error.localizedDescription)")
         }
     }
 }
