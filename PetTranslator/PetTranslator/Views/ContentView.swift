@@ -3,17 +3,21 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            TranslatorView()
-                .tabItem {
-                    Image(systemName: "bubble.left.and.bubble.right")
-                    Text("Translator")
-                }
+            NavigationView {
+                TranslatorView()
+            }
+            .tabItem {
+                Image(systemName: "bubble.left.and.bubble.right")
+                Text("Translator")
+            }
             
-            ClickerView()
-                .tabItem {
-                    Image(systemName: "gearshape")
-                    Text("Clicker")
-                }
+            NavigationView {
+                ClickerView()
+            }
+            .tabItem {
+                Image(systemName: "gearshape")
+                Text("Clicker")
+            }
         }
     }
 }
