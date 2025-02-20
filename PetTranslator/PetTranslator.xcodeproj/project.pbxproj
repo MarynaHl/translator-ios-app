@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		944C127D2D677B7B00C1F3A5 /* Exceptions for "PetTranslator" folder in "PetTranslator" target */ = {
+		944C12F72D6797FA00C1F3A5 /* Exceptions for "PetTranslator" folder in "PetTranslator" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -43,7 +43,7 @@
 		944C12472D6776D900C1F3A5 /* PetTranslator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				944C127D2D677B7B00C1F3A5 /* Exceptions for "PetTranslator" folder in "PetTranslator" target */,
+				944C12F72D6797FA00C1F3A5 /* Exceptions for "PetTranslator" folder in "PetTranslator" target */,
 			);
 			path = PetTranslator;
 			sourceTree = "<group>";
@@ -409,9 +409,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PetTranslator/Preview Content\"";
+				DEVELOPMENT_TEAM = 4YKG3639G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PetTranslator/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to the microphone to translate speech to pet language.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -438,9 +440,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PetTranslator/Preview Content\"";
+				DEVELOPMENT_TEAM = 4YKG3639G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PetTranslator/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to the microphone to translate speech to pet language.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
