@@ -12,7 +12,7 @@ struct ClickerView: View {
                     .foregroundColor(.black)
                     .padding(.top, 20)
 
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     settingsButton(title: "Rate Us", action: rateApp)
                     settingsButton(title: "Share App", action: shareApp)
                     settingsButton(title: "Contact Us", action: contactUs)
@@ -44,17 +44,14 @@ struct ClickerView: View {
                     .foregroundColor(.gray)
             }
             .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity)
-            .frame(height: 55)
-            .background(Color.white)
-            .cornerRadius(16)
+            .frame(width: 358, height: 50)
+            .background(Color(hex: "D6DCFF"))
+            .cornerRadius(20)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(hex: "D6DCFF"), lineWidth: 2)
-            )
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color(hex: "D6DCFF").opacity(0.4))
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(Color(hex: "D6DCFF")),
+                alignment: .bottom
             )
         }
     }
