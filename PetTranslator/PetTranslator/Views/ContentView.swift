@@ -37,12 +37,14 @@ struct ContentView: View {
 
     private var bottomBar: some View {
         HStack(spacing: 0) {
-            Button(action: {
+            Button {
                 selectedTab = .translator
-            }) {
+            } label: {
                 VStack(spacing: 4) {
-                    Image(systemName: "bubble.left.and.bubble.right")
-                        .font(.system(size: 20))
+                    Image("translator")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
                         .foregroundColor(selectedTab == .translator ? .black : .gray)
                     Text("Translator")
                         .font(.system(size: 14, weight: selectedTab == .translator ? .bold : .regular))
@@ -52,12 +54,14 @@ struct ContentView: View {
                 .padding(.vertical, 8)
             }
 
-            Button(action: {
+            Button {
                 selectedTab = .clicker
-            }) {
+            } label: {
                 VStack(spacing: 4) {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 20))
+                    Image("clicker")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
                         .foregroundColor(selectedTab == .clicker ? .black : .gray)
                     Text("Clicker")
                         .font(.system(size: 14, weight: selectedTab == .clicker ? .bold : .regular))

@@ -12,24 +12,22 @@ struct TranslatorView: View {
         VStack(spacing: 0) {
             Text("Translator")
                 .font(.system(size: 32, weight: .bold))
-                .padding(.top, 80)
+                .padding(.top, 40)
             
             VStack(spacing: 24) {
                 HStack(spacing: 40) {
-                    Text("PET")
+                    Text("HUMAN")
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.black)
-                    
                     Image("iconWaveform1")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
-                    
-                    Text("HUMAN")
+                    Text("PET")
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.black)
                 }
-                .padding(.top, 70)
+                .padding(.top, 40)
                 
                 HStack(spacing: 35) {
                     if isRecording {
@@ -40,14 +38,14 @@ struct TranslatorView: View {
                     animalPicker
                 }
                 .frame(width: 320, height: 176)
-                .padding(.top, 50)
+                .padding(.top, 40)
             }
             
             Image(selectedAnimal)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 184, height: 184)
-                .padding(.top, 80)
+                .padding(.top, 40)
             
             Spacer()
         }
@@ -73,7 +71,6 @@ struct TranslatorView: View {
                 .frame(width: 163, height: 95)
                 .foregroundColor(.purple)
                 .padding(.bottom, 5)
-            
             Text("Recording...")
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.black)
@@ -95,7 +92,6 @@ struct TranslatorView: View {
                     .frame(width: 70, height: 70)
                     .foregroundColor(.black)
                     .padding(.bottom, 5)
-                
                 Text("Start Speak")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.black)
