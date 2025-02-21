@@ -7,19 +7,21 @@ struct ClickerView: View {
                 .font(.system(size: 32, weight: .bold))
                 .foregroundColor(.black)
                 .padding(.top, 80)
-            
+
+            Spacer().frame(height: 20)
+
             settingsButton(title: "Rate Us") { print("Rate Us tapped") }
             settingsButton(title: "Share App") { print("Share App tapped") }
             settingsButton(title: "Contact Us") { print("Contact tapped") }
             settingsButton(title: "Restore Purchases") { print("Restore tapped") }
             settingsButton(title: "Privacy Policy") { print("Privacy tapped") }
             settingsButton(title: "Terms of Use") { print("Terms tapped") }
-            
+
             Spacer()
         }
         .padding(.horizontal, 20)
     }
-    
+
     private func settingsButton(title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack {
