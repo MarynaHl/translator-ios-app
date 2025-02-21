@@ -1,13 +1,18 @@
 # Pet Translator iOS App
 
-This repository contains an iOS application built with **SwiftUI** that simulates a “pet translator” experience. The app includes two main features:
-1. **Translator** – Record human speech and (pretend to) translate it into pet language, or vice versa.
-2. **Clicker** – A simple settings screen with options like Rate Us, Share App, and more.
+This iOS application built with **SwiftUI** that simulates a “pet translator” experience.
 
 ## Overview
 
 - The **Translator** screen allows the user to start recording speech (with a microphone button), simulates a recording process, and then shows a mock translation result.  
 - The **Clicker** screen displays various settings (Rate Us, Share App, Contact Us, etc.) in a list-like format.
+  
+![IMG_7708](https://github.com/user-attachments/assets/a2103269-ffa8-404d-aa77-0510a3309c27)
+![IMG_7710](https://github.com/user-attachments/assets/82706b72-379e-4399-ad1e-0a7f64a26d02)
+![IMG_7711](https://github.com/user-attachments/assets/202a8afa-5317-4045-81a2-6c351165becc)
+
+
+
 
 ## Requirements
 
