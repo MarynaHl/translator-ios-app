@@ -3,12 +3,12 @@ import SwiftUI
 struct ResultView: View {
     let selectedAnimal: String
     let isHumanToPet: Bool
-
+    
     @State private var showMessage = true
     @State private var randomMessage: String = ""
-
-    @Environment(\ .dismiss) var dismiss
-
+    
+    @Environment(\.dismiss) var dismiss
+    
     private let catMessages = [
         "I'm hungry, feed me!",
         "I want some food!",
@@ -19,7 +19,7 @@ struct ResultView: View {
         "Take me for a walk!",
         "Woof woof, I'm bored!"
     ]
-
+    
     var body: some View {
         ZStack {
             LinearGradient(
@@ -31,7 +31,7 @@ struct ResultView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-
+            
             VStack(spacing: 16) {
                 HStack {
                     Button {
@@ -44,20 +44,20 @@ struct ResultView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
-
+                .padding(.top, 80)
+                
                 Text("Result")
                     .font(.system(size: 32, weight: .bold))
-                    .padding(.top, 20)
-
+                    .foregroundColor(.black)
+                
                 Spacer()
-
+                
                 ZStack {
                     Image(selectedAnimal)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 184, height: 184)
-
+                    
                     if showMessage {
                         SpeechBubbleView(text: randomMessage)
                             .offset(y: -190)
@@ -101,46 +101,39 @@ struct ResultView: View {
     }
 }
 
-struct BubbleShape: Shape {
-    let cornerRadius: CGFloat = 16
-    let tailWidth: CGFloat = 20
-    let tailHeight: CGFloat = 12
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-
-        let bubbleHeight = rect.height - tailHeight
-        let bubbleRect = CGRect(x: 0, y: 0, width: rect.width, height: bubbleHeight)
-
-        path.addRoundedRect(in: bubbleRect,
-                            cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
-
-        let tailX = rect.midX - tailWidth / 2
-        let tailY = bubbleRect.maxY
-
-        path.move(to: CGPoint(x: tailX, y: tailY))
-        path.addLine(to: CGPoint(x: tailX + tailWidth / 2, y: tailY + tailHeight))
-        path.addLine(to: CGPoint(x: tailX + tailWidth, y: tailY))
-        path.closeSubpath()
-
-        return path
-    }
-}
-
 struct SpeechBubbleView: View {
     let text: String
-
+    
     var body: some View {
         ZStack {
             BubbleShape()
                 .fill(Color.white)
                 .frame(width: 291, height: 142)
-
             Text(text)
                 .font(.system(size: 16))
                 .foregroundColor(.black)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 8)
         }
+    }
+}
+
+struct BubbleShape: Shape {
+    let cornerRadius: CGFloat = 16
+    let tailWidth: CGFloat = 20
+    let tailHeight: CGFloat = 12
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let bubbleHeight = rect.height - tailHeight
+        let bubbleRect = CGRect(x: 0, y: 0, width: rect.width, height: bubbleHeight)
+        path.addRoundedRect(in: bubbleRect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
+        let tailX = rect.midX - tailWidth / 2
+        let tailY = bubbleRect.maxY
+        path.move(to: CGPoint(x: tailX, y: tailY))
+        path.addLine(to: CGPoint(x: tailX + tailWidth / 2, y: tailY + tailHeight))
+        path.addLine(to: CGPoint(x: tailX + tailWidth, y: tailY))
+        path.closeSubpath()
+        return path
     }
 }

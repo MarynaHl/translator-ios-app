@@ -12,7 +12,8 @@ struct TranslatorView: View {
         VStack(spacing: 0) {
             Text("Translator")
                 .font(.system(size: 32, weight: .bold))
-                .padding(.top, 40)
+                .foregroundColor(.black)
+                .padding(.top, 80)
             
             VStack(spacing: 24) {
                 HStack(spacing: 40) {

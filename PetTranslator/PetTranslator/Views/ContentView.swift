@@ -28,7 +28,6 @@ struct ContentView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .padding(.bottom, 110)
 
             bottomBar
                 .padding(.bottom, 19)
@@ -45,7 +44,6 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(selectedTab == .translator ? .black : .gray)
                     Text("Translator")
                         .font(.system(size: 14, weight: selectedTab == .translator ? .bold : .regular))
                         .foregroundColor(selectedTab == .translator ? .black : .gray)
@@ -62,7 +60,6 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(selectedTab == .clicker ? .black : .gray)
                     Text("Clicker")
                         .font(.system(size: 14, weight: selectedTab == .clicker ? .bold : .regular))
                         .foregroundColor(selectedTab == .clicker ? .black : .gray)
@@ -74,8 +71,7 @@ struct ContentView: View {
         .frame(width: 216, height: 82)
         .background(Color.white)
         .cornerRadius(16)
-        .shadow(color: Color(hex: "373E7D").opacity(0.3),
-                radius: 80, x: 0, y: 0)
+        .shadow(color: Color(hex: "373E7D").opacity(0.3), radius: 80, x: 0, y: 0)
     }
 }
 
