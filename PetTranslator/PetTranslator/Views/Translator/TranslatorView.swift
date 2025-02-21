@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct TranslatorView: View {
     @State private var isHumanToPet = true
@@ -143,10 +144,18 @@ struct TranslatorView: View {
     }
     
     private func startRecording() {
-        isRecording = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            isRecording = false
-            showTranslationProcess = true
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    isRecording = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        isRecording = false
+                        showTranslationProcess = true
+                    }
+                } else {
+                    print("Microphone permission denied")
+                }
+            }
         }
     }
 }
