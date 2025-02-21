@@ -29,7 +29,7 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(.bottom, 110)
-            
+
             bottomBar
                 .padding(.bottom, 19)
         }
@@ -51,7 +51,7 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
             }
-            
+
             Button(action: {
                 selectedTab = .clicker
             }) {

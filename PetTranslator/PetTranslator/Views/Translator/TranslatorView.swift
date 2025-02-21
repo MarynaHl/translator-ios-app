@@ -3,59 +3,77 @@ import SwiftUI
 struct TranslatorView: View {
     @State private var isHumanToPet = true
     @State private var isRecording = false
-    @State private var selectedAnimal: String = "dogExample"
-
+    @State private var selectedAnimal = "dogExample"
+    
+    @State private var showTranslationProcess = false
+    @State private var showResult = false
+    
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             Text("Translator")
                 .font(.system(size: 32, weight: .bold))
-                .padding(.top, 20)
-
-            HStack(spacing: 12) {
-                Button(action: { isHumanToPet = true }) {
-                    Text("HUMAN")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(isHumanToPet ? .black : .gray)
-                }
-
-                Image(systemName: "arrow.left.arrow.right")
-                    .font(.system(size: 18))
-                    .foregroundColor(.black)
-
-                Button(action: { isHumanToPet = false }) {
+                .padding(.top, 80)
+            
+            VStack(spacing: 24) {
+                HStack(spacing: 40) {
                     Text("PET")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(!isHumanToPet ? .black : .gray)
+                        .foregroundColor(.black)
+                    
+                    Image("iconWaveform1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                    
+                    Text("HUMAN")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.black)
                 }
-            }
-
-            HStack(spacing: 16) {
-                if isRecording {
-                    recordingCard
-                } else {
-                    speakCard
+                .padding(.top, 70)
+                
+                HStack(spacing: 35) {
+                    if isRecording {
+                        recordingCard
+                    } else {
+                        speakCard
+                    }
+                    animalPicker
                 }
-                animalPicker
+                .frame(width: 320, height: 176)
+                .padding(.top, 50)
             }
-
+            
             Image(selectedAnimal)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200, height: 200)
-                .padding(.top, 16)
-
+                .frame(width: 184, height: 184)
+                .padding(.top, 80)
+            
             Spacer()
         }
         .padding(.horizontal, 20)
+        .sheet(isPresented: $showTranslationProcess) {
+            TranslationProcessView(
+                isHumanToPet: isHumanToPet,
+                selectedAnimal: selectedAnimal,
+                showTranslationProcess: $showTranslationProcess,
+                showResult: $showResult
+            )
+        }
+        .fullScreenCover(isPresented: $showResult) {
+            ResultView(selectedAnimal: selectedAnimal, isHumanToPet: isHumanToPet)
+        }
     }
-
+    
     private var recordingCard: some View {
         VStack {
-            Image(systemName: "waveform")
-                .font(.system(size: 40))
+            Image("iconWaveform")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 163, height: 95)
                 .foregroundColor(.purple)
                 .padding(.bottom, 5)
-
+            
             Text("Recording...")
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.black)
@@ -65,17 +83,19 @@ struct TranslatorView: View {
         .cornerRadius(20)
         .shadow(radius: 5)
     }
-
+    
     private var speakCard: some View {
         Button {
             startRecording()
         } label: {
             VStack {
-                Image(systemName: "mic.fill")
-                    .font(.system(size: 40))
+                Image("iconMic")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
                     .foregroundColor(.black)
                     .padding(.bottom, 5)
-
+                
                 Text("Start Speak")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.black)
@@ -86,55 +106,50 @@ struct TranslatorView: View {
             .shadow(radius: 5)
         }
     }
-
+    
     private var animalPicker: some View {
-        VStack {
+        VStack(spacing: 16) {
             Button {
                 selectedAnimal = "catExample"
             } label: {
-                Image("catExample")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .background(
-                        selectedAnimal == "catExample"
-                        ? Color.blue.opacity(0.4)
-                        : Color.clear
-                    )
-                    .cornerRadius(10)
+                ZStack {
+                    Color(hex: "#D1E7FC")
+                    Image("catExample")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .opacity(selectedAnimal == "catExample" ? 1.0 : 0.5)
+                }
+                .cornerRadius(10)
             }
-
+            .frame(width: 60, height: 60)
+            
             Button {
                 selectedAnimal = "dogExample"
             } label: {
-                Image("dogExample")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .background(
-                        selectedAnimal == "dogExample"
-                        ? Color.green.opacity(0.4)
-                        : Color.clear
-                    )
-                    .cornerRadius(10)
+                ZStack {
+                    Color(hex: "#ECFBC7")
+                    Image("dogExample")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .opacity(selectedAnimal == "dogExample" ? 1.0 : 0.5)
+                }
+                .cornerRadius(10)
             }
+            .frame(width: 60, height: 60)
         }
-        .frame(width: 100, height: 160)
+        .frame(width: 80, height: 160)
         .background(Color.white)
         .cornerRadius(20)
         .shadow(radius: 5)
     }
-
+    
     private func startRecording() {
         isRecording = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             isRecording = false
+            showTranslationProcess = true
         }
-    }
-}
-
-struct TranslatorView_Previews: PreviewProvider {
-    static var previews: some View {
-        TranslatorView()
     }
 }
